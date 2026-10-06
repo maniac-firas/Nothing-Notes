@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 
 class NotePage extends StatelessWidget {
   String datetime;
-  dynamic _controller;
 
   new({
       super.key,
-      required this._controller, 
       required this.datetime,
   });
 
@@ -47,7 +45,7 @@ class NotePage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 10.0),
             child: Text(
-              _controller.text,
+              "New Note",
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 24.0

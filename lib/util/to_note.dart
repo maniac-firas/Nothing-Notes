@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 double sep = 15.0;
 
 class ToNote extends StatelessWidget {
-  dynamic _controller;
+  final dynamic _controller;
   List note;
 
   new({
