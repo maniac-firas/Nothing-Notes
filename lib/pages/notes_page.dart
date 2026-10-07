@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:nothing_notes/pages/note_page.dart';
+import 'package:nothing_notes/util/database.dart';
 import 'package:nothing_notes/util/to_note.dart';
 import 'package:intl/intl.dart';
 
@@ -11,21 +13,27 @@ class NotesPage extends StatefulWidget {
 }
 
 class _NotesPageState extends State<NotesPage> {
-  final _controller = TextEditingController();
+  final _myBox = Hive.box('myBox');
+  NotesDatabase db = NotesDatabase();
 
   Color cr = const Color.fromRGBO(219, 27, 38, 100);
 
-  final List<List<dynamic>> notes = [
-    ["30/06/2026 00:04:59", NotePage(datetime: "30/06/2026 00:04:59")]
-  ];
+  @override
+  void initState() {
+    if (_myBox.get("MetaData") == null) {
+      db.initialCreateData();
+    } else {
+      db.loadData();
+    }
 
-
+    super.initState();
+  }
 
   void addToNote() {
     setState(() {
       var foDt = DateFormat('dd/MM/yyyy HH:mm:ss').format(DateTime.now());
-
-      notes.add([foDt, NotePage(datetime: foDt)]);
+      db.metaDataList.add([foDt, ""]);
+      db.noteList.add([NotePage(datetime: foDt), ""]);
     });
   }
 
@@ -50,11 +58,11 @@ class _NotesPageState extends State<NotesPage> {
       ),
 
       body: ListView.builder(
-        itemCount: notes.length,
+        itemCount: db.noteList.length,
         itemBuilder: (context, index) {
           return ToNote(
-            controller: _controller,
-            note: notes[index],
+            db: db,
+            i: index,
           );
         },
       ),

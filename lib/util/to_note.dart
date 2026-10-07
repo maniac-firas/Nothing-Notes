@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:nothing_notes/util/database.dart';
 
 double sep = 15.0;
 
 class ToNote extends StatelessWidget {
-  final dynamic _controller;
-  List note;
+  final NotesDatabase db;
+  int i;
+
+  final _controller = TextEditingController();
 
   new({
     super.key,
-    required this._controller,
-    required this.note,
+    required this.db,
+    required this.i,
   });
 
   @override
@@ -20,7 +23,7 @@ class ToNote extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute<void>(
-            builder: (context) => note[1],
+            builder: (context) => db.noteList[i][0],
           ),
         );
       },
@@ -44,16 +47,11 @@ class ToNote extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Text(noteText,
-                  //   style: TextStyle(
-                  //     fontSize: 18
-                  //   ),
-                  // ),
                   SizedBox(
                     width: 400-124,
                     height: 28.0,
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 4.0),
+                      padding: const EdgeInsets.only(bottom: 12.0),
                       child: TextField(
                         controller: _controller,
                         style: TextStyle(color: Colors.white),
@@ -66,7 +64,7 @@ class ToNote extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    note[0],
+                    db.metaDataList[i][0],
                     style: TextStyle(
                       color: Colors.grey,
                       fontSize: 14,
