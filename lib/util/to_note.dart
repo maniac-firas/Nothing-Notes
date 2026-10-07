@@ -5,11 +5,13 @@ double sep = 15.0;
 
 class ToNote extends StatelessWidget {
   final NotesDatabase db;
-  int i;
+  final int i;
 
-  final _controller = TextEditingController();
+  TextEditingController get _controller => TextEditingController(
+    text: db.metaDataList[i][1]
+  );
 
-  new({
+  const new({
     super.key,
     required this.db,
     required this.i,
@@ -60,6 +62,9 @@ class ToNote extends StatelessWidget {
                           border: InputBorder.none,
                           hintText: "New Note",
                         ),
+                        onChanged: (String value) {
+                          db.metaDataList[i][1] = value;
+                        },
                       ),
                     ),
                   ),
